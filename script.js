@@ -1,0 +1,6 @@
+document.querySelectorAll('.chip').forEach(x=>x.onclick=()=>x.classList.toggle('active'));
+function runAssessment(){alert('AI assessment complete! Your profile has been analyzed.');document.getElementById('skillgap').scrollIntoView({behavior:'smooth'});}
+function selectCareer(role){alert(role+' selected. The full backend will generate its career-specific skill gap and roadmap.');document.getElementById('skillgap').scrollIntoView({behavior:'smooth'});}
+function addMessage(t,c){let b=document.getElementById('messages'),d=document.createElement('div');d.className='msg '+c;d.textContent=t;b.appendChild(d);b.scrollTop=b.scrollHeight}
+function quickAsk(q){document.getElementById('chatInput').value=q;sendChat()}
+function sendChat(){let i=document.getElementById('chatInput'),q=i.value.trim();if(!q)return;addMessage(q,'user');i.value='';setTimeout(()=>{let a='Based on your profile, focus on your highest-priority skill gaps and build one practical project after each major learning block.';if(/project/i.test(q))a='Try Customer Churn Prediction using Python, Pandas and Scikit-learn, then document it on GitHub.';if(/learn|month|roadmap/i.test(q))a='This month, prioritize Statistics and core Machine Learning: probability, regression, classification, evaluation metrics and one end-to-end project.';addMessage(a,'ai')},400)}

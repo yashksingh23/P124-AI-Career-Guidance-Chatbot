@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>P_124 | AI Career Guidance</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav><div class="brand">✦ CareerAI</div><div class="links"><a href="#dashboard">Dashboard</a><a href="#assessment">Assessment</a><a href="#roadmap">Roadmap</a><a href="#chatbot">AI Chat</a></div><button>Yash ▾</button></nav>
+
+<header class="hero">
+<div><span class="badge">P_124 • AI + NLP + RAG</span><h1>Build the career<br><span>you actually want.</span></h1>
+<p>Personalized career recommendations, skill-gap analysis and an actionable learning roadmap — powered by AI.</p>
+<a class="btn primary" href="#assessment">Start Assessment →</a> <a class="btn secondary" href="#dashboard">View Dashboard</a></div>
+<div class="card match"><small>Your AI Career Match</small><strong>92%</strong><h3>Machine Learning Engineer</h3><div class="progress"><i style="width:92%"></i></div><p>Skills match <b>18 / 20</b></p><p>Interest match <b>High</b></p></div>
+</header>
+
+<main>
+<section id="dashboard"><p class="eyebrow">OVERVIEW</p><h2>Your career dashboard</h2><div class="stats">
+<div class="card"><small>Career match</small><strong>92%</strong><small>ML Engineer</small></div>
+<div class="card"><small>Skills completed</small><strong>12/20</strong><small>8 skills to improve</small></div>
+<div class="card"><small>Roadmap progress</small><strong>34%</strong><small>Month 2 of 6</small></div>
+<div class="card"><small>Projects</small><strong>2/5</strong><small>3 recommended next</small></div></div></section>
+
+<section id="assessment"><div class="head"><div><p class="eyebrow">AI ASSESSMENT</p><h2>Tell us about yourself</h2></div><span>Step 1 of 3</span></div>
+<div class="card form"><div class="grid">
+<label>Full name<input id="name" value="Yash Kumar"></label><label>Degree<input value="B.Tech"></label>
+<label>Branch<select><option>CSE-AIML</option><option>CSE</option><option>IT</option></select></label>
+<label>Year<select><option>3rd Year</option><option>4th Year</option></select></label>
+<label>CGPA<input value="8.1"></label><label>Target career<select><option>Machine Learning Engineer</option><option>Data Scientist</option><option>Data Analyst</option><option>Software Developer</option></select></label></div>
+<label>Skills</label><div class="chips">
+<button class="chip active">Python · Intermediate</button><button class="chip active">SQL · Intermediate</button><button class="chip">Machine Learning · Beginner</button><button class="chip">Deep Learning · Beginner</button><button class="chip active">DSA · Intermediate</button><button class="chip">Statistics · Beginner</button><button class="chip">JavaScript · Beginner</button></div>
+<label>Interests</label><div class="chips"><button class="chip active">AI / ML</button><button class="chip active">Data Science</button><button class="chip">Web Development</button><button class="chip">Cloud</button></div>
+<button class="btn primary full" onclick="runAssessment()">Analyze My Profile ✨</button></div></section>
+
+<section><div class="head"><div><p class="eyebrow">AI RECOMMENDATIONS</p><h2>Career paths for you</h2></div></div>
+<div class="cards">
+<article class="card career"><b>92% match</b><h3>🤖 Machine Learning Engineer</h3><p>Build, train and deploy ML models and intelligent applications.</p><div class="tags">Python · ML · Statistics · Deep Learning</div><button onclick="selectCareer('Machine Learning Engineer')">View Skill Gap →</button></article>
+<article class="card career"><b>84% match</b><h3>📊 Data Scientist</h3><p>Use statistics, ML and data analysis to solve business problems.</p><div class="tags">Python · SQL · Statistics</div><button onclick="selectCareer('Data Scientist')">Compare →</button></article>
+<article class="card career"><b>76% match</b><h3>💻 Software Developer</h3><p>Design and develop reliable software products and services.</p><div class="tags">DSA · Java · Git</div><button onclick="selectCareer('Software Developer')">Compare →</button></article>
+</div></section>
+
+<section id="skillgap"><p class="eyebrow">SKILL GAP</p><h2>What should you learn next?</h2>
+<div class="card tablewrap"><table><tr><th>Skill</th><th>Your level</th><th>Required</th><th>Progress</th><th>Priority</th></tr>
+<tr><td>Statistics</td><td>Beginner</td><td>Advanced</td><td><div class="bar"><i style="width:30%"></i></div></td><td class="high">High</td></tr>
+<tr><td>Machine Learning</td><td>Beginner</td><td>Advanced</td><td><div class="bar"><i style="width:35%"></i></div></td><td class="high">High</td></tr>
+<tr><td>Deep Learning</td><td>Beginner</td><td>Intermediate</td><td><div class="bar"><i style="width:25%"></i></div></td><td class="medium">Medium</td></tr>
+<tr><td>Python</td><td>Intermediate</td><td>Advanced</td><td><div class="bar"><i style="width:65%"></i></div></td><td class="medium">Medium</td></tr>
+<tr><td>SQL</td><td>Intermediate</td><td>Intermediate</td><td><div class="bar"><i style="width:90%"></i></div></td><td class="low">Low</td></tr></table></div></section>
+
+<section id="roadmap"><p class="eyebrow">PERSONALIZED ROADMAP</p><h2>6-month ML Engineer roadmap</h2>
+<div class="roadmap">
+<div class="road active"><b>01</b><div><strong>Foundations</strong><p>Python, NumPy, Pandas, probability & statistics</p></div><em>✓</em></div>
+<div class="road current"><b>02</b><div><strong>Machine Learning</strong><p>Regression, classification, clustering, model evaluation</p></div><em>In progress</em></div>
+<div class="road"><b>03</b><div><strong>Advanced ML</strong><p>Feature engineering, ensembles, tuning and pipelines</p></div><em>Pending</em></div>
+<div class="road"><b>04</b><div><strong>Deep Learning</strong><p>Neural networks, CNNs, NLP and PyTorch</p></div><em>Pending</em></div>
+<div class="road"><b>05</b><div><strong>Build Projects</strong><p>2 portfolio projects + GitHub documentation</p></div><em>Pending</em></div>
+<div class="road"><b>06</b><div><strong>Placement Prep</strong><p>DSA, ML interviews, resume and mock interviews</p></div><em>Pending</em></div></div></section>
+
+<section id="chatbot" class="chat"><div><p class="eyebrow">AI CAREER ASSISTANT</p><h2>Ask your career questions.</h2><p>The production version can use NLP + RAG to retrieve career data, skills and learning resources before generating a response.</p><div class="arch"><span>NLP</span>→<span>Retriever</span>→<span>Knowledge Base</span>→<span>LLM</span></div></div>
+<div class="card chatbox"><div id="messages"><div class="msg ai">Hi Yash! 👋 Ask me what to learn next, which project to build, or how to close a skill gap.</div></div>
+<div class="quick"><button onclick="quickAsk('What should I learn this month?')">What should I learn?</button><button onclick="quickAsk('Suggest a project')">Suggest a project</button></div>
+<div class="chatinput"><input id="chatInput" placeholder="Ask your AI career assistant..." onkeydown="if(event.key==='Enter')sendChat()"><button onclick="sendChat()">➤</button></div></div></section>
+</main><footer>© 2026 CareerAI • P_124 AI-Powered Career Guidance Chatbot <span>Frontend prototype</span></footer>
+<script src="script.js"></script></body></html>
