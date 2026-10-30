@@ -1,0 +1,13 @@
+services:
+  # Web Service: Runs both FastAPI Backend & serves the Frontend UI
+  - type: web
+    name: careerhub-platform
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
