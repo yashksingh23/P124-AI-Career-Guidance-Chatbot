@@ -2,894 +2,537 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CareerHub — Discover Jobs & Internships</title>
-  <meta name="description" content="CareerHub helps students and job seekers discover relevant job opportunities and internships with AI-powered skill matching, smart filters, and easy applications." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>CareerPulse — Discover Dream Roles & Internships</title>
+  <meta name="description" content="CareerPulse helps students and job seekers discover relevant internships and entry-level positions with AI alignment, match scores, and easy applications." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Header / Navigation Bar -->
-  <header class="navbar">
-    <div class="nav-container">
-      <div class="brand-logo" onclick="switchTab('explore')">
-        <div class="logo-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
-          </svg>
-        </div>
-        <div class="brand-text">
-          <span class="brand-title">Career<span>Hub</span></span>
-          <span class="brand-tagline">Jobs & Internships</span>
-        </div>
-      </div>
+  
+  <!-- Outer Mobile Container / App Shell -->
+  <div class="app-viewport">
+    <div class="app-device">
 
-      <!-- Navigation Tabs -->
-      <nav class="nav-links">
-        <button class="nav-btn active" data-tab="explore" onclick="switchTab('explore')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          <span>Find Jobs</span>
+      <!-- ============================================== -->
+      <!-- TOP STATUS / APP HEADER -->
+      <!-- ============================================== -->
+      <header class="app-topbar">
+        <div class="user-profile-header" onclick="switchTab('profile')">
+          <div class="header-avatar-wrap">
+            <img class="header-avatar-img" id="header-avatar-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Alex" onerror="this.style.display='none'; document.getElementById('header-avatar-fallback').style.display='flex';" />
+            <div class="header-avatar-fallback" id="header-avatar-fallback" style="display:none;">AR</div>
+          </div>
+          <div class="header-brand-info">
+            <div class="header-brand-title">
+              <span>CareerPulse</span>
+              <span class="brand-blue-dot">•</span>
+            </div>
+            <span class="header-brand-sub">Early Access Feed</span>
+          </div>
+        </div>
+
+        <button class="notification-bell-btn" onclick="toggleNotificationsModal()" title="Notifications">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <span class="bell-badge-dot"></span>
         </button>
-        <button class="nav-btn" data-tab="saved" onclick="switchTab('saved')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
-          <span>Saved</span>
-          <span class="badge-count" id="saved-count-badge">0</span>
+      </header>
+
+      <!-- Toast Container -->
+      <div id="toast-container" class="toast-container"></div>
+
+      <!-- ============================================== -->
+      <!-- SCROLLABLE SCREEN CONTENT -->
+      <!-- ============================================== -->
+      <main class="app-scroll-content">
+        
+        <!-- ============================================ -->
+        <!-- TAB 1: HOME FEED (Matches Reference UI 100%) -->
+        <!-- ============================================ -->
+        <section id="tab-home" class="tab-pane active">
+          
+          <!-- Greeting Row -->
+          <div class="greeting-section">
+            <div class="greeting-left">
+              <h1 class="greeting-title">Hello, <span id="display-greeting-name">Alex</span> <span class="wave-emoji">👋</span></h1>
+              <p class="greeting-subtitle">Find your dream internship or role</p>
+            </div>
+            <div class="new-today-pill">
+              <span class="green-indicator-dot"></span>
+              <span class="pill-text-blue">128 NEW TODAY</span>
+            </div>
+          </div>
+
+          <!-- Search & Filter Controls -->
+          <div class="search-filter-row">
+            <div class="search-input-box">
+              <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.3-4.3"/>
+              </svg>
+              <input type="text" id="main-search-input" placeholder="Search roles, skills, or companies..." oninput="handleSearch(this.value)" />
+              <button class="search-clear-btn" id="search-clear-btn" onclick="clearSearch()" style="display:none;">✕</button>
+            </div>
+            
+            <button class="filter-action-btn" onclick="openFiltersModal()" title="Filter options">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="21" y1="4" x2="14" y2="4"/>
+                <line x1="10" y1="4" x2="3" y2="4"/>
+                <line x1="21" y1="12" x2="12" y2="12"/>
+                <line x1="8" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="20" x2="16" y2="20"/>
+                <line x1="12" y1="20" x2="3" y2="20"/>
+                <line x1="14" y1="1" x2="14" y2="7"/>
+                <line x1="8" y1="9" x2="8" y2="15"/>
+                <line x1="16" y1="17" x2="16" y2="23"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Quick Filter Pills (Horizontal Scroll) -->
+          <div class="quick-pills-row">
+            <button class="quick-filter-chip active" id="chip-trending" onclick="toggleQuickFilter('trending')">
+              <span class="chip-check">✓</span>
+              <span>🔥 Trending</span>
+            </button>
+            <button class="quick-filter-chip" id="chip-summer" onclick="toggleQuickFilter('summer')">
+              <span>🎓 Summer Internships</span>
+            </button>
+            <button class="quick-filter-chip" id="chip-remote" onclick="toggleQuickFilter('remote')">
+              <span>💻 Remote</span>
+            </button>
+            <button class="quick-filter-chip" id="chip-fresher" onclick="toggleQuickFilter('fresher')">
+              <span>⚡ Entry Level</span>
+            </button>
+          </div>
+
+          <!-- ============================================ -->
+          <!-- AI SMART ALIGNMENT CARD (Lavender Gradient) -->
+          <!-- ============================================ -->
+          <div class="ai-alignment-card">
+            <div class="ai-alignment-top">
+              <div class="ai-badge-pill">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+                <span>AI Smart Alignment</span>
+              </div>
+              <button class="tune-btn" onclick="openTuneSkillsModal()">
+                <span>Tune</span>
+                <span class="arrow-sym">→</span>
+              </button>
+            </div>
+
+            <h3 class="ai-match-headline" id="ai-match-headline">94% Match for Product Design & Frontend</h3>
+            <p class="ai-match-sub">Based on your portfolio skills and active coursework</p>
+
+            <div class="ai-alignment-bottom">
+              <div class="recruiters-group">
+                <div class="avatar-stack">
+                  <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80" class="stack-img" alt="Recruiter 1" />
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" class="stack-img" alt="Recruiter 2" />
+                  <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=100&q=80" class="stack-img" alt="Recruiter 3" />
+                </div>
+                <span class="recruiters-text">18 recruiters active this week</span>
+              </div>
+
+              <div class="top-badge">TOP 5%</div>
+            </div>
+          </div>
+
+          <!-- ============================================ -->
+          <!-- HOT OPPORTUNITIES SECTION -->
+          <!-- ============================================ -->
+          <div class="section-title-row">
+            <div class="section-title-left">
+              <h2 class="section-heading">Hot Opportunities</h2>
+              <span class="urgent-tag">URGENT</span>
+            </div>
+            <button class="view-all-link" onclick="switchTab('explore')">View All (<span id="hot-jobs-count">42</span>)</button>
+          </div>
+
+          <!-- Hot Jobs Container -->
+          <div class="hot-jobs-list" id="hot-jobs-list">
+            <!-- Cards rendered dynamically via JS -->
+          </div>
+
+          <!-- ============================================ -->
+          <!-- CAREER TRACKS SECTION (2x2 Grid) -->
+          <!-- ============================================ -->
+          <div class="section-title-row mt-6">
+            <div class="section-title-left">
+              <h2 class="section-heading">Career Tracks</h2>
+            </div>
+            <span class="explore-focus-sub">Explore by focus</span>
+          </div>
+
+          <div class="career-tracks-grid">
+            <div class="track-card" onclick="filterByTrack('Engineering')">
+              <div class="track-icon-box bg-blue-subtle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+              </div>
+              <strong class="track-title">Engineering</strong>
+              <span class="track-roles-count">140+ open roles</span>
+            </div>
+
+            <div class="track-card" onclick="filterByTrack('Design & UX')">
+              <div class="track-icon-box bg-purple-subtle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                </svg>
+              </div>
+              <strong class="track-title">Design & UX</strong>
+              <span class="track-roles-count">85+ open roles</span>
+            </div>
+
+            <div class="track-card" onclick="filterByTrack('Product & Mktg')">
+              <div class="track-icon-box bg-sky-subtle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>
+                </svg>
+              </div>
+              <strong class="track-title">Product & Mktg</strong>
+              <span class="track-roles-count">60+ open roles</span>
+            </div>
+
+            <div class="track-card" onclick="filterByTrack('Data & AI')">
+              <div class="track-icon-box bg-emerald-subtle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                </svg>
+              </div>
+              <strong class="track-title">Data & AI</strong>
+              <span class="track-roles-count">95+ open roles</span>
+            </div>
+          </div>
+
+          <!-- ============================================ -->
+          <!-- FRESH POSTINGS SECTION -->
+          <!-- ============================================ -->
+          <div class="section-title-row mt-6">
+            <div class="section-title-left">
+              <h2 class="section-heading">Fresh Postings</h2>
+            </div>
+            <span class="updated-sub">UPDATED JUST NOW</span>
+          </div>
+
+          <div class="fresh-postings-list" id="fresh-postings-list">
+            <!-- Rendered dynamically via JS -->
+          </div>
+
+          <div class="feed-bottom-spacer"></div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- TAB 2: EXPLORE / ALL OPENINGS -->
+        <!-- ============================================ -->
+        <section id="tab-explore" class="tab-pane">
+          <div class="pane-view-header">
+            <h2>Explore Opportunities</h2>
+            <p>Filter by role, skills, location, and experience</p>
+          </div>
+
+          <!-- Active filters row -->
+          <div class="active-filter-tags-row" id="explore-active-tags"></div>
+
+          <!-- Explore Jobs Grid -->
+          <div class="explore-jobs-list" id="explore-jobs-list"></div>
+          
+          <div class="feed-bottom-spacer"></div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- TAB 3: SAVED BOOKMARKS -->
+        <!-- ============================================ -->
+        <section id="tab-saved" class="tab-pane">
+          <div class="pane-view-header">
+            <h2>Saved Opportunities</h2>
+            <p>Roles you have bookmarked for later review or application</p>
+          </div>
+
+          <div class="saved-list-container" id="saved-list-container"></div>
+          <div class="feed-bottom-spacer"></div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- TAB 4: APPLICATION TRACKER -->
+        <!-- ============================================ -->
+        <section id="tab-applied" class="tab-pane">
+          <div class="pane-view-header">
+            <h2>My Applications</h2>
+            <p>Live status of your submitted roles & internships</p>
+          </div>
+
+          <div class="app-status-overview">
+            <div class="app-stat-pill">
+              <span class="app-stat-num" id="stat-applied-total">0</span>
+              <span class="app-stat-label">Submitted</span>
+            </div>
+            <div class="app-stat-pill">
+              <span class="app-stat-num text-amber" id="stat-applied-review">0</span>
+              <span class="app-stat-label">Reviewing</span>
+            </div>
+            <div class="app-stat-pill">
+              <span class="app-stat-num text-purple" id="stat-applied-interview">0</span>
+              <span class="app-stat-label">Interview</span>
+            </div>
+            <div class="app-stat-pill">
+              <span class="app-stat-num text-emerald" id="stat-applied-offer">0</span>
+              <span class="app-stat-label">Offers</span>
+            </div>
+          </div>
+
+          <div class="applied-list-container" id="applied-list-container"></div>
+          <div class="feed-bottom-spacer"></div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- TAB 5: PERSONALIZED PROFILE -->
+        <!-- ============================================ -->
+        <section id="tab-profile" class="tab-pane">
+          <div class="profile-card-top">
+            <div class="profile-hero-avatar" id="profile-hero-avatar">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Alex" class="profile-avatar-large-img" />
+            </div>
+            <h2 class="profile-display-name" id="prof-name-text">Alex Rivera</h2>
+            <p class="profile-display-headline" id="prof-headline-text">Product Design & Frontend Enthusiast • Class of 2026</p>
+            
+            <div class="profile-status-chip">
+              <span class="green-indicator-dot"></span> Actively Exploring Roles
+            </div>
+          </div>
+
+          <!-- Edit Profile Form -->
+          <div class="profile-form-block">
+            <h3 class="form-block-title">Candidate Details</h3>
+            <div class="form-group-field">
+              <label>Full Name</label>
+              <input type="text" id="edit-name" value="Alex Rivera" />
+            </div>
+            <div class="form-group-field">
+              <label>Headline</label>
+              <input type="text" id="edit-headline" value="Product Design & Frontend Enthusiast" />
+            </div>
+            <div class="form-group-field">
+              <label>University / College</label>
+              <input type="text" id="edit-college" value="Stanford University" />
+            </div>
+            <div class="form-group-field">
+              <label>Degree & Major</label>
+              <input type="text" id="edit-degree" value="B.S. in CS & Interaction Design" />
+            </div>
+
+            <!-- Skills & Competencies -->
+            <div class="form-group-field mt-4">
+              <div class="skills-label-row">
+                <label>Skills (Powers AI Alignment)</label>
+                <span class="text-xs text-muted">Tap to remove</span>
+              </div>
+              <div class="skills-tag-editor" id="profile-skills-tags"></div>
+              
+              <div class="add-skill-bar">
+                <input type="text" id="add-skill-input" placeholder="Add skill (e.g. Figma, React, SQL)..." onkeydown="if(event.key==='Enter')addSkillFromInput()" />
+                <button type="button" class="btn-add-skill" onclick="addSkillFromInput()">+ Add</button>
+              </div>
+            </div>
+
+            <button class="btn-save-profile" onclick="saveUserProfile()">Save Profile Changes</button>
+          </div>
+
+          <div class="feed-bottom-spacer"></div>
+        </section>
+
+      </main>
+
+      <!-- ============================================== -->
+      <!-- BOTTOM NAVIGATION BAR (Fixed) -->
+      <!-- ============================================== -->
+      <nav class="app-bottom-nav">
+        <button class="nav-tab-btn active" data-tab="home" onclick="switchTab('home')">
+          <div class="nav-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <span class="nav-tab-label">Home</span>
+          <span class="nav-active-dot"></span>
         </button>
-        <button class="nav-btn" data-tab="applications" onclick="switchTab('applications')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-          <span>Applications</span>
-          <span class="badge-count" id="applications-count-badge">0</span>
+
+        <button class="nav-tab-btn" data-tab="explore" onclick="switchTab('explore')">
+          <div class="nav-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+            </svg>
+          </div>
+          <span class="nav-tab-label">Explore</span>
+          <span class="nav-active-dot"></span>
         </button>
-        <button class="nav-btn" data-tab="insights" onclick="switchTab('insights')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
-          <span>Skill Match</span>
+
+        <button class="nav-tab-btn" data-tab="saved" onclick="switchTab('saved')">
+          <div class="nav-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
+            </svg>
+            <span class="nav-counter-badge" id="nav-saved-badge">1</span>
+          </div>
+          <span class="nav-tab-label">Saved</span>
+          <span class="nav-active-dot"></span>
+        </button>
+
+        <button class="nav-tab-btn" data-tab="applied" onclick="switchTab('applied')">
+          <div class="nav-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+              <path d="m9 14 2 2 4-4"/>
+            </svg>
+            <span class="nav-counter-badge" id="nav-applied-badge" style="display:none;">0</span>
+          </div>
+          <span class="nav-tab-label">Applied</span>
+          <span class="nav-active-dot"></span>
+        </button>
+
+        <button class="nav-tab-btn" data-tab="profile" onclick="switchTab('profile')">
+          <div class="nav-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <span class="nav-tab-label">Profile</span>
+          <span class="nav-active-dot"></span>
         </button>
       </nav>
 
-      <!-- Right User Controls -->
-      <div class="nav-actions">
-        <button class="btn-post-job" onclick="openPostJobModal()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          <span>Post a Job</span>
-        </button>
-
-        <div class="user-pill" onclick="switchTab('profile')" title="Open Profile">
-          <div class="user-avatar" id="nav-avatar">YK</div>
-          <div class="user-meta">
-            <span class="user-name" id="nav-user-name">Yash Kumar</span>
-            <span class="user-role" id="nav-user-role">Student / SDE</span>
-          </div>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
-        </div>
-      </div>
     </div>
-  </header>
-
-  <!-- Notification Toast Container -->
-  <div id="toast-container" class="toast-container"></div>
-
-  <!-- MAIN APP CONTAINER -->
-  <main class="main-content">
-    
-    <!-- ============================================== -->
-    <!-- TAB 1: EXPLORE JOBS & INTERNSHIPS -->
-    <!-- ============================================== -->
-    <section id="tab-explore" class="tab-pane active">
-      
-      <!-- Hero Banner -->
-      <div class="hero-section">
-        <div class="hero-content">
-          <div class="hero-badge">
-            <span class="pulse-dot"></span>
-            <span>Over 1,200+ Active Student Internships & Entry-Level Roles</span>
-          </div>
-          <h1 class="hero-title">
-            Find the job that <span class="gradient-text">ignites your career</span>.
-          </h1>
-          <p class="hero-subtitle">
-            Explore verified internships, fresher opportunities, and top tech roles. Filter by skills, track applications, and see your instant profile compatibility match score.
-          </p>
-
-          <!-- Search Bar Container -->
-          <div class="search-box-card">
-            <div class="search-input-group main-search">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-              <input type="text" id="search-keyword" placeholder="Job title, role, company, or keywords..." oninput="handleSearchInput()" />
-              <button class="clear-search-btn" id="clear-search-btn" onclick="clearSearchInput()" title="Clear">✕</button>
-            </div>
-
-            <div class="search-input-group location-search">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-              <select id="search-location" onchange="applyFilters()">
-                <option value="">All Locations & Remote</option>
-                <option value="Remote">Remote Only</option>
-                <option value="Bengaluru">Bengaluru</option>
-                <option value="Hyderabad">Hyderabad</option>
-                <option value="Mumbai">Mumbai</option>
-                <option value="Delhi-NCR">Delhi-NCR / Gurugram</option>
-                <option value="Pune">Pune</option>
-                <option value="Hybrid">Hybrid Roles</option>
-              </select>
-            </div>
-
-            <div class="search-input-group type-search">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-              <select id="search-type" onchange="applyFilters()">
-                <option value="">All Job Types</option>
-                <option value="Internship">🎓 Internships Only</option>
-                <option value="Full-Time">💼 Full-Time Roles</option>
-                <option value="Part-Time">⏱️ Part-Time</option>
-                <option value="Contract">📄 Contract / Project</option>
-              </select>
-            </div>
-
-            <button class="btn-search-submit" onclick="applyFilters()">
-              <span>Search</span>
-            </button>
-          </div>
-
-          <!-- Quick Discovery Tags -->
-          <div class="quick-tags">
-            <span class="quick-tag-label">Popular Searches:</span>
-            <button class="quick-pill" onclick="setQuickKeyword('Internship')">🎓 College Internships</button>
-            <button class="quick-pill" onclick="setQuickKeyword('Machine Learning')">🤖 Machine Learning</button>
-            <button class="quick-pill" onclick="setQuickKeyword('Frontend')">⚛️ React / Frontend</button>
-            <button class="quick-pill" onclick="setQuickKeyword('Remote')">🌐 Remote Work</button>
-            <button class="quick-pill" onclick="setQuickKeyword('Python')">🐍 Python Backend</button>
-            <button class="quick-pill" onclick="setQuickKeyword('Product')">💡 Product Management</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Live Stats Ribbon -->
-      <div class="stats-ribbon">
-        <div class="stat-card">
-          <div class="stat-icon bg-indigo">💼</div>
-          <div>
-            <div class="stat-num" id="stat-total-jobs">16</div>
-            <div class="stat-label">Active Openings</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon bg-emerald">🎓</div>
-          <div>
-            <div class="stat-num" id="stat-internships">6</div>
-            <div class="stat-label">Student Internships</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon bg-amber">⚡</div>
-          <div>
-            <div class="stat-num" id="stat-high-matches">8</div>
-            <div class="stat-label">High Profile Matches (>70%)</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon bg-sky">🏢</div>
-          <div>
-            <div class="stat-num" id="stat-companies">14</div>
-            <div class="stat-label">Hiring Companies</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Main Layout: Sidebar Filters + Jobs Grid -->
-      <div class="catalog-layout">
-        
-        <!-- Filter Sidebar -->
-        <aside class="filters-sidebar">
-          <div class="filters-header">
-            <div class="filters-title-group">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-              <h3>Filters</h3>
-            </div>
-            <button class="btn-reset-filters" onclick="resetAllFilters()">Reset All</button>
-          </div>
-
-          <!-- Active Filter Chips -->
-          <div class="active-filter-chips" id="active-filter-chips"></div>
-
-          <!-- Filter Group: Category / Role Domain -->
-          <div class="filter-section">
-            <div class="filter-section-title">Career Role / Field</div>
-            <div class="filter-options-list" id="category-filters">
-              <label class="filter-checkbox-label">
-                <input type="radio" name="filter-category" value="" checked onchange="applyFilters()">
-                <span class="custom-radio"></span>
-                <span>All Roles</span>
-              </label>
-              <label class="filter-checkbox-label">
-                <input type="radio" name="filter-category" value="Software Engineering" onchange="applyFilters()">
-                <span class="custom-radio"></span>
-                <span>Software Engineering</span>
-              </label>
-              <label class="filter-checkbox-label">
-                <input type="radio" name="filter-category" value="Data & AI" onchange="applyFilters()">
-                <span class="custom-radio"></span>
-                <span>Data Science & AI/ML</span>
-              </label>
-              <label class="filter-checkbox-label">
-                <input type="radio" name="filter-category" value="Web & Full Stack" onchange="applyFilters()">
-                <span class="custom-radio"></span>
-                <span>Web & Full Stack</span>
-              </label>
-              <label class="filter-checkbox-label">
-                <input type="radio" name="filter-category" value="Cloud & DevOps" onchange="applyFilters()">
-                <span class="custom-radio"></span>
-                <span>Cloud & DevOps</span>
-              </label>
-              <label class="filter-checkbox-label">
-                <input type="radio" name="filter-category" value="Design & Product" onchange="applyFilters()">
-                <span class="custom-radio"></span>
-                <span>Product & Design</span>
-              </label>
-              <label class="filter-checkbox-label">
-                <input type="radio" name="filter-category" value="Security & QA" onchange="applyFilters()">
-                <span class="custom-radio"></span>
-                <span>Cybersecurity & QA</span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Filter Group: Experience Level -->
-          <div class="filter-section">
-            <div class="filter-section-title">Experience Level</div>
-            <div class="filter-options-list">
-              <label class="filter-checkbox-label">
-                <input type="checkbox" class="filter-exp" value="Student / Intern" onchange="applyFilters()">
-                <span class="custom-checkbox"></span>
-                <span>Student / Internship (0 yrs)</span>
-              </label>
-              <label class="filter-checkbox-label">
-                <input type="checkbox" class="filter-exp" value="Fresher" onchange="applyFilters()">
-                <span class="custom-checkbox"></span>
-                <span>Fresher / Entry (0-1 yrs)</span>
-              </label>
-              <label class="filter-checkbox-label">
-                <input type="checkbox" class="filter-exp" value="1-3 yrs" onchange="applyFilters()">
-                <span class="custom-checkbox"></span>
-                <span>Early Career (1-3 yrs)</span>
-              </label>
-              <label class="filter-checkbox-label">
-                <input type="checkbox" class="filter-exp" value="3-5+ yrs" onchange="applyFilters()">
-                <span class="custom-checkbox"></span>
-                <span>Mid-Senior (3+ yrs)</span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Filter Group: Skills Filter -->
-          <div class="filter-section">
-            <div class="filter-section-title">Required Skills</div>
-            <div class="skill-search-wrapper">
-              <input type="text" id="filter-skill-input" placeholder="Search skills (e.g. Python, React)..." oninput="renderSkillFilters()" />
-            </div>
-            <div class="skill-pill-cloud" id="skill-filter-cloud">
-              <!-- Dynamically populated skills -->
-            </div>
-          </div>
-
-          <!-- Filter Group: Minimum Profile Match -->
-          <div class="filter-section">
-            <div class="filter-section-title">
-              <span>Min Profile Match</span>
-              <span class="range-val" id="match-range-val">0%</span>
-            </div>
-            <input type="range" id="filter-min-match" min="0" max="90" step="10" value="0" oninput="updateMatchSlider(this.value)" />
-            <div class="range-subtext">Shows jobs matching your profile skills</div>
-          </div>
-
-        </aside>
-
-        <!-- Catalog Main Area -->
-        <div class="catalog-content">
-          
-          <!-- Results Header & Sort Controls -->
-          <div class="catalog-toolbar">
-            <div class="results-info">
-              <h2 class="results-heading">Explore Opportunities</h2>
-              <p class="results-count" id="results-count-text">Showing 16 matching jobs</p>
-            </div>
-
-            <div class="toolbar-actions">
-              <div class="sort-selector">
-                <label for="sort-by">Sort By:</label>
-                <select id="sort-by" onchange="applyFilters()">
-                  <option value="relevant">Most Relevant</option>
-                  <option value="match-high">Highest Match Score ⚡</option>
-                  <option value="newest">Newest First</option>
-                  <option value="salary-high">Highest Pay / Stipend</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <!-- Jobs Grid List -->
-          <div class="jobs-grid" id="jobs-grid">
-            <!-- Job cards rendered here via JavaScript -->
-          </div>
-
-          <!-- Empty State -->
-          <div class="empty-state hidden" id="empty-state">
-            <div class="empty-icon">🔍</div>
-            <h3>No matching opportunities found</h3>
-            <p>Try clearing some filters or searching with different keywords or skills.</p>
-            <button class="btn primary" onclick="resetAllFilters()">Reset All Filters</button>
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- ============================================== -->
-    <!-- TAB 2: SAVED JOBS (BOOKMARKS) -->
-    <!-- ============================================== -->
-    <section id="tab-saved" class="tab-pane">
-      <div class="pane-header">
-        <div>
-          <h1 class="pane-title">Saved Jobs & Bookmarks</h1>
-          <p class="pane-subtitle">Keep track of positions you're interested in and apply whenever you are ready.</p>
-        </div>
-        <button class="btn secondary" onclick="switchTab('explore')">Browse More Jobs</button>
-      </div>
-
-      <div class="saved-jobs-container" id="saved-jobs-container">
-        <!-- Rendered via JS -->
-      </div>
-    </section>
-
-    <!-- ============================================== -->
-    <!-- TAB 3: ONLINE APPLICATIONS TRACKER -->
-    <!-- ============================================== -->
-    <section id="tab-applications" class="tab-pane">
-      <div class="pane-header">
-        <div>
-          <h1 class="pane-title">My Applications</h1>
-          <p class="pane-subtitle">Track the live recruitment status of all the roles and internships you have applied for.</p>
-        </div>
-        <button class="btn primary" onclick="switchTab('explore')">+ Apply to More Roles</button>
-      </div>
-
-      <!-- Application Metrics -->
-      <div class="app-metrics-grid">
-        <div class="metric-card">
-          <div class="metric-val" id="app-metric-total">0</div>
-          <div class="metric-label">Total Applied</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-val text-amber" id="app-metric-review">0</div>
-          <div class="metric-label">Under Review</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-val text-purple" id="app-metric-interview">0</div>
-          <div class="metric-label">Interviews Scheduled</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-val text-emerald" id="app-metric-offers">0</div>
-          <div class="metric-label">Offers Received</div>
-        </div>
-      </div>
-
-      <div class="applications-table-wrapper">
-        <table class="applications-table" id="applications-table">
-          <thead>
-            <tr>
-              <th>Role & Company</th>
-              <th>Applied Date</th>
-              <th>Job Type</th>
-              <th>Status</th>
-              <th>Resume Version</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="applications-table-body">
-            <!-- Rendered dynamically -->
-          </tbody>
-        </table>
-        
-        <div class="empty-state hidden" id="empty-applications">
-          <div class="empty-icon">📁</div>
-          <h3>No applications yet</h3>
-          <p>You haven't submitted any job applications yet. Discover roles and click "Apply Now" to get started!</p>
-          <button class="btn primary" onclick="switchTab('explore')">Explore Jobs</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================== -->
-    <!-- TAB 4: PERSONALIZED USER PROFILE -->
-    <!-- ============================================== -->
-    <section id="tab-profile" class="tab-pane">
-      <div class="pane-header">
-        <div>
-          <h1 class="pane-title">Student & Job Seeker Profile</h1>
-          <p class="pane-subtitle">Your profile powers the AI Career Match engine across all jobs. Keep skills and background updated!</p>
-        </div>
-        <button class="btn primary" onclick="saveProfileChanges()">Save Profile Changes</button>
-      </div>
-
-      <div class="profile-layout">
-        
-        <!-- Left: Profile Summary Card -->
-        <div class="profile-summary-card">
-          <div class="profile-avatar-large" id="profile-avatar-display">YK</div>
-          <h2 class="profile-name-display" id="profile-name-display">Yash Kumar</h2>
-          <p class="profile-headline-display" id="profile-headline-display">Aspiring Software Engineer & AI Enthusiast</p>
-          <div class="profile-badge-status">
-            <span class="status-indicator"></span> Actively Seeking Opportunities
-          </div>
-
-          <div class="profile-quick-stats">
-            <div class="p-stat">
-              <strong id="profile-skills-count">10</strong>
-              <span>Verified Skills</span>
-            </div>
-            <div class="p-stat">
-              <strong id="profile-apps-count">0</strong>
-              <span>Applications</span>
-            </div>
-            <div class="p-stat">
-              <strong id="profile-saved-count">0</strong>
-              <span>Saved Jobs</span>
-            </div>
-          </div>
-
-          <hr class="divider" />
-
-          <!-- Resume Section -->
-          <div class="resume-manager-box">
-            <h4>Active Resume</h4>
-            <div class="resume-file-chip">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              <div class="resume-details">
-                <span class="resume-title" id="profile-resume-name">Yash_Kumar_Resume_2026.pdf</span>
-                <span class="resume-meta">Updated Oct 2026 • 245 KB</span>
-              </div>
-            </div>
-            <div class="resume-actions">
-              <label class="btn-upload-resume" for="resume-upload-input">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                <span>Upload New PDF</span>
-              </label>
-              <input type="file" id="resume-upload-input" accept=".pdf,.doc,.docx" style="display:none;" onchange="handleResumeUpload(event)">
-              <button class="btn-preview-resume" onclick="previewResumeMock()">View</button>
-            </div>
-          </div>
-
-          <hr class="divider" />
-
-          <!-- Social Links -->
-          <div class="profile-links-list">
-            <h4>Online Portfolios</h4>
-            <div class="link-item">
-              <span>GitHub</span>
-              <a href="https://github.com" target="_blank" id="profile-github-display">github.com/yash</a>
-            </div>
-            <div class="link-item">
-              <span>LinkedIn</span>
-              <a href="https://linkedin.com" target="_blank" id="profile-linkedin-display">linkedin.com/in/yash</a>
-            </div>
-            <div class="link-item">
-              <span>Portfolio</span>
-              <a href="https://yashportfolio.dev" target="_blank" id="profile-portfolio-display">yashportfolio.dev</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right: Edit Details Form & Skills Inventory -->
-        <div class="profile-details-form">
-          
-          <!-- Basic Info -->
-          <div class="form-card">
-            <h3 class="form-section-title">Personal Information</h3>
-            <div class="form-grid-2">
-              <div class="form-group">
-                <label for="prof-input-name">Full Name</label>
-                <input type="text" id="prof-input-name" value="Yash Kumar" />
-              </div>
-              <div class="form-group">
-                <label for="prof-input-email">Email Address</label>
-                <input type="email" id="prof-input-email" value="yash.kumar@example.com" />
-              </div>
-              <div class="form-group">
-                <label for="prof-input-phone">Phone Number</label>
-                <input type="tel" id="prof-input-phone" value="+91 98765 43210" />
-              </div>
-              <div class="form-group">
-                <label for="prof-input-location">Location</label>
-                <input type="text" id="prof-input-location" value="Bengaluru, India" />
-              </div>
-              <div class="form-group full-width">
-                <label for="prof-input-headline">Professional Headline / Target Role</label>
-                <input type="text" id="prof-input-headline" value="Aspiring Software Engineer & AI Enthusiast | Final Year B.Tech CSE" />
-              </div>
-              <div class="form-group full-width">
-                <label for="prof-input-bio">About / Bio</label>
-                <textarea id="prof-input-bio" rows="3">Passionate student looking for Software Development Engineer (SDE) roles and AI/ML internships. Experienced in building full-stack web applications, REST APIs, and machine learning models.</textarea>
-              </div>
-            </div>
-          </div>
-
-          <!-- Education & Student Info -->
-          <div class="form-card">
-            <h3 class="form-section-title">Education & Academic Background</h3>
-            <div class="form-grid-2">
-              <div class="form-group full-width">
-                <label for="prof-input-college">College / University</label>
-                <input type="text" id="prof-input-college" value="National Institute of Technology (NIT)" />
-              </div>
-              <div class="form-group">
-                <label for="prof-input-degree">Degree & Major</label>
-                <input type="text" id="prof-input-degree" value="B.Tech in Computer Science & AI" />
-              </div>
-              <div class="form-group">
-                <label for="prof-input-gradyear">Graduation Year</label>
-                <select id="prof-input-gradyear">
-                  <option value="2027">2027 (Undergrad)</option>
-                  <option value="2026" selected>2026 (Final Year)</option>
-                  <option value="2025">2025 (Recent Graduate)</option>
-                  <option value="2024">2024</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="prof-input-cgpa">CGPA / Grade</label>
-                <input type="text" id="prof-input-cgpa" value="8.7 / 10.0" />
-              </div>
-              <div class="form-group">
-                <label for="prof-input-availability">Availability</label>
-                <select id="prof-input-availability">
-                  <option value="Immediate">Immediate (Within 1 week)</option>
-                  <option value="1 Month" selected>1 Month Notice</option>
-                  <option value="Summer 2026">Summer 2026 (Internships)</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <!-- Skills Inventory (Powers Match Score!) -->
-          <div class="form-card">
-            <div class="skills-manager-header">
-              <div>
-                <h3 class="form-section-title" style="margin-bottom: 4px;">Skills & Competencies</h3>
-                <p class="form-subtext">These skills are automatically matched with job requirements to calculate your compatibility score.</p>
-              </div>
-            </div>
-
-            <!-- Add Skill Input -->
-            <div class="add-skill-row">
-              <input type="text" id="new-skill-input" placeholder="Add a new skill (e.g., Docker, TypeScript, PyTorch)..." onkeydown="if(event.key==='Enter')addNewSkillFromInput()" />
-              <button class="btn secondary" onclick="addNewSkillFromInput()">+ Add Skill</button>
-            </div>
-
-            <!-- Current Skills Tag Cloud -->
-            <div class="profile-skills-tags" id="profile-skills-container">
-              <!-- Rendered via JS -->
-            </div>
-
-            <!-- Quick Add Recommended Skills -->
-            <div class="suggested-skills-bar">
-              <span class="suggest-label">Suggested to add:</span>
-              <div class="suggest-pills" id="suggested-skills-pills">
-                <button class="pill-add" onclick="quickAddProfileSkill('Docker')">+ Docker</button>
-                <button class="pill-add" onclick="quickAddProfileSkill('TypeScript')">+ TypeScript</button>
-                <button class="pill-add" onclick="quickAddProfileSkill('PyTorch')">+ PyTorch</button>
-                <button class="pill-add" onclick="quickAddProfileSkill('AWS')">+ AWS</button>
-                <button class="pill-add" onclick="quickAddProfileSkill('Figma')">+ Figma</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Portfolio Links & Experience -->
-          <div class="form-card">
-            <h3 class="form-section-title">Websites & Social Profiles</h3>
-            <div class="form-grid-2">
-              <div class="form-group">
-                <label for="prof-input-github">GitHub Profile URL</label>
-                <input type="url" id="prof-input-github" value="https://github.com/yash" />
-              </div>
-              <div class="form-group">
-                <label for="prof-input-linkedin">LinkedIn Profile URL</label>
-                <input type="url" id="prof-input-linkedin" value="https://linkedin.com/in/yash" />
-              </div>
-              <div class="form-group full-width">
-                <label for="prof-input-portfolio">Portfolio / Personal Website</label>
-                <input type="url" id="prof-input-portfolio" value="https://yashportfolio.dev" />
-              </div>
-            </div>
-          </div>
-
-          <div class="form-actions-bottom">
-            <button class="btn primary large" onclick="saveProfileChanges()">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-              <span>Save & Update All Job Matches</span>
-            </button>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ============================================== -->
-    <!-- TAB 5: SKILL MATCH & CAREER INSIGHTS -->
-    <!-- ============================================== -->
-    <section id="tab-insights" class="tab-pane">
-      <div class="pane-header">
-        <div>
-          <h1 class="pane-title">Skill Gap & Compatibility Insights</h1>
-          <p class="pane-subtitle">Understand how your skillset aligns with the current job market and what skills to learn next to unlock top roles.</p>
-        </div>
-        <button class="btn secondary" onclick="switchTab('profile')">Manage Profile Skills</button>
-      </div>
-
-      <!-- Top Match Roles Summary -->
-      <div class="insights-grid">
-        <div class="insight-box match-overview-card">
-          <div class="insight-header">
-            <h3>Your Top Recommended Career Paths</h3>
-            <span class="badge-tag">Personalized</span>
-          </div>
-          <div class="recommended-paths-list" id="recommended-paths-list">
-            <!-- Rendered via JS -->
-          </div>
-        </div>
-
-        <div class="insight-box high-demand-skills-card">
-          <div class="insight-header">
-            <h3>Highest ROI Skills to Learn Next</h3>
-            <span class="badge-tag green">Industry Demand</span>
-          </div>
-          <p class="insight-subtext">Adding these missing skills to your profile will significantly boost your match % across active tech vacancies:</p>
-          <div class="skill-gap-bars" id="skill-gap-bars">
-            <!-- Rendered via JS -->
-          </div>
-        </div>
-      </div>
-
-      <!-- Student Advice & Preparation Guide -->
-      <div class="student-guide-card">
-        <h3>💡 Pro-Tips for Students & Freshers</h3>
-        <div class="tips-grid">
-          <div class="tip-item">
-            <div class="tip-num">01</div>
-            <div>
-              <strong>Tailor Your Resume Keywords</strong>
-              <p>Ensure your resume specifically lists the technologies mentioned in job listings (e.g. Python, SQL, REST APIs) for ATS passing.</p>
-            </div>
-          </div>
-          <div class="tip-item">
-            <div class="tip-num">02</div>
-            <div>
-              <strong>Showcase 2 Deployed Projects</strong>
-              <p>A live web demo link and well-documented GitHub repository sets you apart from 90% of applicants who only have local code.</p>
-            </div>
-          </div>
-          <div class="tip-item">
-            <div class="tip-num">03</div>
-            <div>
-              <strong>Target Internships with Mentorship</strong>
-              <p>Look for programs with structured learning and PPO (Pre-Placement Offer) conversion potential.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
+  </div>
 
   <!-- ============================================== -->
-  <!-- MODAL: JOB DETAILS VIEW -->
+  <!-- MODAL: FILTER DRAWER -->
   <!-- ============================================== -->
-  <div class="modal-overlay" id="job-details-modal">
-    <div class="modal-container detail-modal">
-      <button class="modal-close-btn" onclick="closeJobDetailsModal()">✕</button>
-      
-      <div class="modal-content" id="job-modal-content">
-        <!-- Rendered dynamically via JS -->
+  <div class="modal-backdrop" id="filter-modal">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h3>Filter Opportunities</h3>
+        <button class="sheet-close-btn" onclick="closeFiltersModal()">✕</button>
+      </div>
+
+      <div class="sheet-body">
+        <div class="filter-group-sec">
+          <label class="filter-sec-title">Role Focus</label>
+          <div class="filter-pills-wrap" id="modal-category-pills">
+            <button class="f-pill active" onclick="setCategoryFilter('')">All Roles</button>
+            <button class="f-pill" onclick="setCategoryFilter('Design & UX')">Design & UX</button>
+            <button class="f-pill" onclick="setCategoryFilter('Engineering')">Engineering</button>
+            <button class="f-pill" onclick="setCategoryFilter('Data & AI')">Data & AI</button>
+            <button class="f-pill" onclick="setCategoryFilter('Product & Mktg')">Product & Mktg</button>
+          </div>
+        </div>
+
+        <div class="filter-group-sec">
+          <label class="filter-sec-title">Workplace & Location</label>
+          <div class="filter-pills-wrap">
+            <button class="f-pill active" id="pill-loc-all" onclick="setLocationFilter('')">Anywhere</button>
+            <button class="f-pill" id="pill-loc-remote" onclick="setLocationFilter('Remote')">Remote Only</button>
+            <button class="f-pill" id="pill-loc-sf" onclick="setLocationFilter('San Francisco')">San Francisco</button>
+            <button class="f-pill" id="pill-loc-ny" onclick="setLocationFilter('New York')">New York</button>
+          </div>
+        </div>
+
+        <div class="filter-group-sec">
+          <label class="filter-sec-title">Job Type</label>
+          <div class="filter-pills-wrap">
+            <button class="f-pill active" id="pill-type-all" onclick="setTypeFilter('')">All Types</button>
+            <button class="f-pill" id="pill-type-intern" onclick="setTypeFilter('Internship')">🎓 Internships</button>
+            <button class="f-pill" id="pill-type-full" onclick="setTypeFilter('Full-time')">💼 Full-Time</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sheet-actions">
+        <button class="btn-sheet-reset" onclick="resetFiltersModal()">Reset</button>
+        <button class="btn-sheet-apply" onclick="closeFiltersModal()">Show Results</button>
       </div>
     </div>
   </div>
 
   <!-- ============================================== -->
-  <!-- MODAL: ONLINE JOB APPLICATION -->
+  <!-- MODAL: EASY APPLY / QUICK APPLY -->
   <!-- ============================================== -->
-  <div class="modal-overlay" id="apply-modal">
-    <div class="modal-container apply-modal-card">
-      <button class="modal-close-btn" onclick="closeApplyModal()">✕</button>
-      
-      <div class="apply-header">
-        <div class="apply-header-badge">Online Application</div>
-        <h2 id="apply-modal-title">Apply for Role</h2>
-        <p id="apply-modal-company" class="apply-company-sub">Company Name • Location</p>
+  <div class="modal-backdrop" id="apply-modal">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <div>
+          <span class="apply-header-badge" id="modal-apply-badge">Easy Apply</span>
+          <h3 id="modal-apply-role" style="margin-top:4px;">Product Design Intern</h3>
+          <span class="text-xs text-muted" id="modal-apply-company">Figma / Stripe Ecosystem</span>
+        </div>
+        <button class="sheet-close-btn" onclick="closeApplyModal()">✕</button>
       </div>
 
-      <form id="job-apply-form" onsubmit="submitJobApplication(event)">
-        <!-- Step 1: Pre-filled Candidate Details -->
-        <div class="apply-step-section">
-          <h4>1. Candidate Information</h4>
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label>Full Name</label>
-              <input type="text" id="app-form-name" required />
-            </div>
-            <div class="form-group">
-              <label>Email Address</label>
-              <input type="email" id="app-form-email" required />
-            </div>
-            <div class="form-group">
-              <label>Phone Number</label>
-              <input type="tel" id="app-form-phone" required />
-            </div>
-            <div class="form-group">
-              <label>Current College / Degree</label>
-              <input type="text" id="app-form-degree" required />
+      <form id="apply-form" onsubmit="submitApplication(event)" class="sheet-body">
+        <div class="form-group-field">
+          <label>Applicant Name</label>
+          <input type="text" id="apply-name" required value="Alex Rivera" />
+        </div>
+        <div class="form-group-field">
+          <label>Email Address</label>
+          <input type="email" id="apply-email" required value="alex.rivera@example.com" />
+        </div>
+        <div class="form-group-field">
+          <label>Active Resume</label>
+          <div class="resume-selection-chip">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <div>
+              <strong style="display:block; font-size:0.85rem;">Alex_Rivera_Portfolio_Resume.pdf</strong>
+              <span style="font-size:0.72rem; color:#64748b;">Verified from Profile • 210 KB</span>
             </div>
           </div>
         </div>
-
-        <!-- Step 2: Resume Selection -->
-        <div class="apply-step-section">
-          <h4>2. Resume / CV Attachment</h4>
-          <div class="resume-choice-box">
-            <label class="resume-choice-option">
-              <input type="radio" name="app-resume-type" value="profile" checked />
-              <div class="resume-choice-info">
-                <strong id="app-resume-label">Use Profile Resume (Yash_Kumar_Resume_2026.pdf)</strong>
-                <span>Recommended • Verified from your profile</span>
-              </div>
-            </label>
-            <label class="resume-choice-option">
-              <input type="radio" name="app-resume-type" value="upload" />
-              <div class="resume-choice-info">
-                <strong>Upload a Custom Resume for this role</strong>
-                <span>PDF or DOCX format (Max 5MB)</span>
-              </div>
-            </label>
-          </div>
-          <div id="custom-resume-upload-wrap" style="display:none; margin-top:10px;">
-            <input type="file" id="custom-resume-input" accept=".pdf,.docx,.doc" />
-          </div>
+        <div class="form-group-field">
+          <label>Brief Pitch / Portfolio Link</label>
+          <textarea id="apply-pitch" rows="2" placeholder="Share relevant project links or why you're a standout fit..." required>Excited about this role! My portfolio highlights design systems in Figma and React frontend components.</textarea>
         </div>
 
-        <!-- Step 3: Screening Questions -->
-        <div class="apply-step-section">
-          <h4>3. Screening Questions & Pitch</h4>
-          <div class="form-group full-width">
-            <label>Why are you a great fit for this position? (Brief Pitch)</label>
-            <textarea id="app-form-pitch" rows="3" required placeholder="Highlight relevant projects, technologies you've worked with, or why you're excited about this role..."></textarea>
-          </div>
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label>Earliest Available Start Date</label>
-              <select id="app-form-start">
-                <option value="Immediately">Immediately</option>
-                <option value="In 2 Weeks">In 2 Weeks</option>
-                <option value="Next Month">Next Month</option>
-                <option value="Summer 2026">Summer 2026</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Work Authorization</label>
-              <select id="app-form-auth">
-                <option value="Citizen / Full Authorization">Citizen / Eligible to work</option>
-                <option value="Student Visa / OPT / CPT">Student Visa / CPT / OPT</option>
-                <option value="Requires Sponsorship">Requires Sponsorship</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <!-- Submit Buttons -->
-        <div class="apply-modal-actions">
-          <button type="button" class="btn secondary" onclick="closeApplyModal()">Cancel</button>
-          <button type="submit" class="btn primary">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            <span>Submit Application</span>
-          </button>
+        <div class="sheet-actions">
+          <button type="button" class="btn-sheet-reset" onclick="closeApplyModal()">Cancel</button>
+          <button type="submit" class="btn-sheet-apply">Confirm & Send Application</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- ============================================== -->
-  <!-- MODAL: POST A JOB (MOCK EMPLOYER FORM) -->
+  <!-- MODAL: TUNE AI SMART ALIGNMENT -->
   <!-- ============================================== -->
-  <div class="modal-overlay" id="post-job-modal">
-    <div class="modal-container">
-      <button class="modal-close-btn" onclick="closePostJobModal()">✕</button>
-      <div class="modal-header">
-        <h2>Post an Opportunity on CareerHub</h2>
-        <p>Reach thousands of qualified students, freshers, and experienced engineers.</p>
+  <div class="modal-backdrop" id="tune-modal">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <div>
+          <h3>Tune AI Alignment</h3>
+          <p class="text-xs text-muted">Adjust target domains to recalculate match scores</p>
+        </div>
+        <button class="sheet-close-btn" onclick="closeTuneModal()">✕</button>
       </div>
-      <form id="post-job-form" onsubmit="handlePostJobSubmit(event)">
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Job Title</label>
-            <input type="text" id="post-title" required placeholder="e.g. Junior Backend Developer" />
-          </div>
-          <div class="form-group">
-            <label>Company Name</label>
-            <input type="text" id="post-company" required placeholder="e.g. Acme Tech Labs" />
-          </div>
-          <div class="form-group">
-            <label>Role Category</label>
-            <select id="post-category" required>
-              <option value="Software Engineering">Software Engineering</option>
-              <option value="Data & AI">Data & AI</option>
-              <option value="Web & Full Stack">Web & Full Stack</option>
-              <option value="Cloud & DevOps">Cloud & DevOps</option>
-              <option value="Design & Product">Design & Product</option>
-              <option value="Security & QA">Security & QA</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Job Type</label>
-            <select id="post-type" required>
-              <option value="Full-Time">Full-Time</option>
-              <option value="Internship">Internship</option>
-              <option value="Part-Time">Part-Time</option>
-              <option value="Contract">Contract</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Location</label>
-            <input type="text" id="post-location" required placeholder="e.g. Bengaluru / Remote" />
-          </div>
-          <div class="form-group">
-            <label>Salary / Stipend</label>
-            <input type="text" id="post-salary" required placeholder="e.g. ₹50,000/mo or ₹14 - 20 LPA" />
-          </div>
-          <div class="form-group full-width">
-            <label>Required Skills (comma separated)</label>
-            <input type="text" id="post-skills" required placeholder="e.g. Python, SQL, Docker, FastAPI" />
-          </div>
-          <div class="form-group full-width">
-            <label>Brief Description</label>
-            <textarea id="post-desc" rows="3" required placeholder="Describe the responsibilities and candidate expectations..."></textarea>
-          </div>
-        </div>
-        <div class="modal-footer-actions">
-          <button type="button" class="btn secondary" onclick="closePostJobModal()">Cancel</button>
-          <button type="submit" class="btn primary">Publish Live Listing</button>
-        </div>
-      </form>
+      <div class="sheet-body">
+        <p style="font-size:0.86rem; color:#475569; margin-bottom:12px;">Select the skills you want to prioritize in your career match feed:</p>
+        <div class="skills-tag-editor" id="tune-skills-cloud"></div>
+      </div>
+      <div class="sheet-actions">
+        <button class="btn-sheet-apply full" onclick="closeTuneModal()">Update Smart Feed</button>
+      </div>
     </div>
   </div>
-
-  <!-- Footer -->
-  <footer class="app-footer">
-    <div class="footer-container">
-      <div class="footer-brand">
-        <div class="footer-logo">✦ CareerHub</div>
-        <p>Connecting students, graduates, and professionals with high-impact internships and career opportunities.</p>
-        <span class="footer-copyright">© 2026 CareerHub Technologies Inc. All rights reserved.</span>
-      </div>
-      <div class="footer-links-group">
-        <h5>For Students</h5>
-        <a href="#explore" onclick="switchTab('explore')">Browse Internships</a>
-        <a href="#explore" onclick="switchTab('explore')">Fresher Jobs</a>
-        <a href="#insights" onclick="switchTab('insights')">Skill Gap Analysis</a>
-        <a href="#profile" onclick="switchTab('profile')">Resume Matcher</a>
-      </div>
-      <div class="footer-links-group">
-        <h5>For Employers</h5>
-        <a href="javascript:void(0)" onclick="openPostJobModal()">Post a Job</a>
-        <a href="javascript:void(0)">Campus Hiring</a>
-        <a href="javascript:void(0)">Hiring Analytics</a>
-      </div>
-      <div class="footer-links-group">
-        <h5>Platform</h5>
-        <a href="javascript:void(0)">Privacy Policy</a>
-        <a href="javascript:void(0)">Terms of Service</a>
-        <a href="javascript:void(0)">Support & FAQ</a>
-      </div>
-    </div>
-  </footer>
 
   <script src="app.js"></script>
 </body>
